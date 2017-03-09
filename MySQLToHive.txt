@@ -1,0 +1,21 @@
+Table creation in Hive
+
+----------------------
+
+sqoop import --connect jdbc:mysql://localhost/db1 --username 'root' -P --split-by district --table 'Petrol' --target-dir 'user/hive/warehouse' --fields-terminated-by ',' --create-hive-table --hive-import --hive-table custom.Petrol;
+
+
+
+Procedure for Incremental Load
+------------------------------
+First updating HDFS dataset, petrol_dataset.txt
+hadoop fs -appendToFile /home/acadgild/Downloads/petrol_dataset_r.txt /petrol_dataset.txt
+
+
+
+Incremental lastmodified
+
+------------------------
+
+
+sqoop import --connect jdbc:mysql://localhost/db1 --username 'root' -P --split-by date_ --table 'temperature' --target-dir 'user/hive/warehouse' --fields-terminated-by ','  --hive-import --hive-table default.temperature --incremental lastmodified --check-column date_ --last-value '2002-06-15'
